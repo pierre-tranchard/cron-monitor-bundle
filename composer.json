@@ -18,7 +18,9 @@
     "php": ">=7.1",
     "symfony/serializer": "^4.0@beta",
     "guzzlehttp/guzzle": "~6.0",
-    "symfony/yaml": "^4.0@beta"
+    "symfony/yaml": "^4.0@beta",
+    "symfony/stopwatch": "^4.0@beta",
+    "symfony/monolog-bundle": "^3.1"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "^4.0@beta",
