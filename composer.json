@@ -8,6 +8,7 @@
       "Tranchard\\CronMonitorBundle\\": ""
     }
   },
+  "keywords": ["cron", "api", "monitoring", "mongodb"],
   "autoload-dev": {
     "psr-4": {
       "Tranchard\\CronMonitorBundle\\Tests\\": ""
@@ -15,7 +16,7 @@
   },
   "require": {
     "php": ">=7.1",
-    "symfony/symfony": "^4.0@beta",
+    "symfony/serializer": "^4.0@beta",
     "guzzlehttp/guzzle": "~6.0",
     "symfony/yaml": "^4.0@beta"
   },
