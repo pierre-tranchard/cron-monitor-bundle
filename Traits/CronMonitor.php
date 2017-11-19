@@ -180,7 +180,7 @@ trait CronMonitor
             );
         }
         $body = self::$serializer->serialize(
-            ['tranchard_cron_monitor_form_type_cron_reporter' => $this->reporter],
+            ['tranchard_cron_monitor_api_form_type_cron_reporter' => $this->reporter],
             'json',
             ['groups' => ['create']]
         );
