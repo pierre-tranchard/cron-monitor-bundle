@@ -29,3 +29,13 @@ tranchard_cron_monitor:
 * The fallback transport is designed to keep a trace of the exchange between the client and the API server.
 * Basically you can implement your very own transport driver.
 * All you need to do is to implement the `TransportInterface`, extends the `AbstractTransport` class and tag your system using the tag `tranchard.cron_monitor.transport`
+
+## Console Component
+* To get the output (stdout / stdrr) sent to the API, please update your console binary in your symfony app like the following
+```php
+$application->run($input, new SharedBufferCronMonitorOutput());
+```
+* Do not forget to import the class
+```php
+use Tranchard\CronMonitorBundle\Component\Console\SharedBufferCronMonitorOutput;
+```
