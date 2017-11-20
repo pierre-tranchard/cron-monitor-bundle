@@ -12,6 +12,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 use Tranchard\CronMonitorBundle\DependencyInjection\Configuration;
 use Tranchard\CronMonitorBundle\Model\CronReporter;
 use Symfony\Component\HttpFoundation\Request as RequestFoundation;
+use Tranchard\CronMonitorBundle\Transports\TransportFactory;
 
 trait CronMonitor
 {
@@ -208,14 +209,14 @@ trait CronMonitor
         } catch (\Exception $exception) {
             $logger = $this->container->get('logger');
             $logger->error($exception->getMessage(), ['caller' => __CLASS__]);
-            $transport = $this->container->getParameter('allo_cine_cron_reporter.fallback')['transport'];
+            $transport = $this->container->getParameter(sprintf('%s.fallback', Configuration::getName()))['transport'];
             $this->reporter->addExtraPayload(
                 [
                     'trace'   => $exception->getTraceAsString(),
                     'message' => $exception->getMessage(),
                 ]
             );
-            $this->container->get('tranchard_cron_monitor.transports.transport_factory')
+            $this->container->get(TransportFactory::class)
                             ->get($transport)
                             ->send(
                                 $this->reporter,
