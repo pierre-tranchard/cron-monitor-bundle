@@ -5,16 +5,18 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="tranchard_cron_monitor.transports.transport_factory"
-                 class="Tranchard\CronMonitorBundle\Transports\TransportFactory">
+        <service id="Tranchard\CronMonitorBundle\Transports\TransportFactory"
+                 class="Tranchard\CronMonitorBundle\Transports\TransportFactory"
+                 public="true">
             <argument type="tagged" tag="tranchard.cron_monitor.transport"/>
         </service>
-        <service id="tranchard_cron_monitor.transports.drivers.filesystem"
+        <service id="Tranchard\CronMonitorBundle\Transports\Drivers\Filesystem"
                  class="Tranchard\CronMonitorBundle\Transports\Drivers\Filesystem">
             <tag name="tranchard.cron_monitor.transport"/>
         </service>
-        <service id="tranchard_cron_monitor.transports.drivers.mailer"
-                 class="Tranchard\CronMonitorBundle\Transports\Drivers\Mailer" autowire="true">
+        <service id="Tranchard\CronMonitorBundle\Transports\Drivers\Mailer"
+                 class="Tranchard\CronMonitorBundle\Transports\Drivers\Mailer"
+                 autowire="true">
             <tag name="tranchard.cron_monitor.transport"/>
         </service>
     </services>
