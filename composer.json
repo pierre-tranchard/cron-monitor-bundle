@@ -15,7 +15,7 @@
     }
   },
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.1.3",
     "guzzlehttp/guzzle": "~6.0",
     "symfony/symfony": "^3.0 || ^4.0",
     "symfony/swiftmailer-bundle": "^3.0",
