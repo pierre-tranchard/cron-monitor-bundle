@@ -2,6 +2,7 @@
 
 namespace Tranchard\CronMonitorBundle\EventListener;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
@@ -60,12 +61,9 @@ class CronMonitorEventSubscriber implements EventSubscriberInterface
     public function onConsoleBeforeStart(ConsoleCommandEvent $event)
     {
         $command = $event->getCommand();
-        $reflection = new \ReflectionClass($command);
-        $traits = $reflection->getTraits();
-        if (!array_key_exists(AutomaticCronMonitor::class, $traits)) {
+        if ($this->hasAutomaticTrait($command) === false) {
             return;
         }
-        $reflection = null;
         /** @var AutomaticCronMonitor $command */
         $command->start($this->computeTokens($event->getInput()));
     }
@@ -76,12 +74,9 @@ class CronMonitorEventSubscriber implements EventSubscriberInterface
     public function onConsoleError(ConsoleErrorEvent $event)
     {
         $command = $event->getCommand();
-        $reflection = new \ReflectionClass($command);
-        $traits = $reflection->getTraits();
-        if (!array_key_exists(AutomaticCronMonitor::class, $traits)) {
+        if ($this->hasAutomaticTrait($command) === false) {
             return;
         }
-        $reflection = null;
         $exception = $event->getError();
         $extraInformation = $this->computeExtraInformation($event->getOutput());
         /** @var AutomaticCronMonitor $command */
@@ -102,12 +97,9 @@ class CronMonitorEventSubscriber implements EventSubscriberInterface
     public function onConsoleTerminate(ConsoleTerminateEvent $event)
     {
         $command = $event->getCommand();
-        $reflection = new \ReflectionClass($command);
-        $traits = $reflection->getTraits();
-        if (!array_key_exists(AutomaticCronMonitor::class, $traits)) {
+        if ($this->hasAutomaticTrait($command) === false) {
             return;
         }
-        $reflection = null;
         $extraInformation = $this->computeExtraInformation($event->getOutput());
         switch ($event->getExitCode()) {
             case 0:
@@ -173,5 +165,25 @@ class CronMonitorEventSubscriber implements EventSubscriberInterface
         }
 
         return $extraInformation;
+    }
+
+    /**
+     * @param Command|null $command
+     *
+     * @return bool
+     */
+    private function hasAutomaticTrait(Command $command = null): bool
+    {
+        if (is_null($command)) {
+            return false;
+        }
+        $reflection = new \ReflectionClass($command);
+        $traits = $reflection->getTraits();
+        if (!array_key_exists(AutomaticCronMonitor::class, $traits)) {
+            return false;
+        }
+        $reflection = null;
+
+        return true;
     }
 }
